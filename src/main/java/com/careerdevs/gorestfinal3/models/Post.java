@@ -1,9 +1,6 @@
 package com.careerdevs.gorestfinal3.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 
@@ -25,6 +22,8 @@ public class Post {
 
     private int user_id;
     private String title;
+
+    @Column(length = 512) //update the default length
     private String body;
 
 
@@ -40,6 +39,7 @@ public class Post {
         return title;
     }
 
+    @Column(length = 512) //update the default length
     public String getBody() {
         return body;
     }

@@ -45,6 +45,16 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUser() {
+        try {
+            Iterable<User> allUsers = userRepository.findAll();
+            return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        } catch (Exception e) {
+            return ApiErrorHandling.genericApiError(e);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
         try {
@@ -275,14 +285,5 @@ public class UserController {
         }
     }
 
-    //http://localhost:8080/user/all
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllUser() {
-        try {
-            Iterable<User> allUsers = userRepository.findAll();
-            return new ResponseEntity<>(allUsers, HttpStatus.OK);
-        } catch (Exception e) {
-            return ApiErrorHandling.genericApiError(e);
-        }
-    }
+
 }

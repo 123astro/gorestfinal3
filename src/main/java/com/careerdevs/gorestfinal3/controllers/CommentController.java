@@ -2,7 +2,7 @@ package com.careerdevs.gorestfinal3.controllers;
 
 
 import com.careerdevs.gorestfinal3.models.Comment;
-import com.careerdevs.gorestfinal3.models.User;
+
 import com.careerdevs.gorestfinal3.repos.CommentRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
@@ -154,7 +154,7 @@ public class CommentController {
 
             for (int i = 2; i <= totalPgNum; i++) {
                 String pageUrl = url + "?page=" + i;
-                User[] pageUsers = restTemplate.getForObject(pageUrl, User[].class);
+                Comment[] pageUsers = restTemplate.getForObject(pageUrl, Comment[].class);
 
                 if (pageUsers == null) {
                     throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,

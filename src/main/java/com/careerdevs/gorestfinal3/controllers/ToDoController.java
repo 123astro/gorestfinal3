@@ -4,6 +4,7 @@ import com.careerdevs.gorestfinal3.models.ToDo;
 import com.careerdevs.gorestfinal3.repos.ToDoRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
+import com.careerdevs.gorestfinal3.validation.ToDoValidation;
 import com.careerdevs.gorestfinal3.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -44,7 +45,6 @@ public class ToDoController {
     @Autowired
     private ToDoRepository toDoRepository;
 
-    //http://localhost:8080/user/all
     @GetMapping("/all")
     public ResponseEntity<?> getAllToDo() {
         try {
@@ -162,7 +162,7 @@ public class ToDoController {
     public ResponseEntity<?> createNewUser(@RequestBody ToDo newTodo) {
         try {
 
-//            ValidationError newUserErrors = UserValidation.validateNewUser(newTodo, toDoRepository, false);
+//            ValidationError newUserErrors = ToDoValidation.validateNewController(newTodo, toDoRepository, false);
 //
 //            if (newUserErrors.hasError()) {
 //                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
@@ -231,7 +231,7 @@ public class ToDoController {
     public ResponseEntity<?> updateUser(@RequestBody ToDo toDo) {
         try {
 
-        //    ValidationError newUserErrors = UserValidation.validateNewUser(toDo, toDoRepository, true);
+            //    ValidationError newUserErrors = UserValidation.validateNewUser(toDo, toDoRepository, true);
 
 //            if (newUserErrors.hasError()) {
 //                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
