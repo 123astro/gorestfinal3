@@ -63,7 +63,7 @@ public class UserController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            int uID = Integer.parseInt(id);
+            long uID = Integer.parseInt(id);
 
             Optional<User> foundUser = userRepository.findById(uID);
 
@@ -142,7 +142,7 @@ public class UserController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            int uID = Integer.parseInt(id);
+            long uID = Integer.parseInt(id);
 
             //check the range => other things to do
 
@@ -249,7 +249,7 @@ public class UserController {
                     throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                             "Failed to GET first page " + i + " of users from GoRest ");
                 }
-                allUsers.addAll(Arrays.asList(firstPageUsers));
+                allUsers.addAll(Arrays.asList(pageUsers));
             }
 
             userRepository.saveAll(allUsers);

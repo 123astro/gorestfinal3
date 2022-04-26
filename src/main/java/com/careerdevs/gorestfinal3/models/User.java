@@ -9,7 +9,7 @@ public class User {
 
     @Id //increments each time
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
     private String email;
@@ -17,7 +17,7 @@ public class User {
     private String status;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

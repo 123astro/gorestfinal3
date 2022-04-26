@@ -188,16 +188,16 @@ public class ToDoController {
 
             ResponseEntity<ToDo[]> response = restTemplate.getForEntity(url, ToDo[].class);
 
-            ToDo[] firstPagetodos = response.getBody();
+            ToDo[] firstPageTodos = response.getBody();
 
             // assert firstPageUsers != null;
 
-            if (firstPagetodos == null) {
+            if (firstPageTodos == null) {
                 throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to GET first page of " +
                         "todos from GOREST");
             }
 
-            ArrayList<ToDo> allTodo = new ArrayList<>(Arrays.asList(firstPagetodos));
+            ArrayList<ToDo> allTodo = new ArrayList<>(Arrays.asList(firstPageTodos));
 
             HttpHeaders responseHeaders = response.getHeaders();
 
@@ -212,7 +212,7 @@ public class ToDoController {
                     throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                             "Failed to GET first page " + i + " of TodoS from GoRest ");
                 }
-                allTodo.addAll(Arrays.asList(firstPagetodos));
+                allTodo.addAll(Arrays.asList(pageUsers));
             }
 
             toDoRepository.saveAll(allTodo);

@@ -213,7 +213,7 @@ public class PostController {
                         throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                                 "Failed to GET first page " + i + " of post from GoRest ");
                     }
-                    allPosts.addAll(Arrays.asList(firstPageUsers));
+                    allPosts.addAll(Arrays.asList(pagePosts));
                 }
 
                 postRepository.saveAll(allPosts);

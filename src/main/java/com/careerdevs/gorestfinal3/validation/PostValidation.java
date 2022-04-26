@@ -1,8 +1,9 @@
 package com.careerdevs.gorestfinal3.validation;
 
 import com.careerdevs.gorestfinal3.models.Post;
+import com.careerdevs.gorestfinal3.models.User;
 import com.careerdevs.gorestfinal3.repos.PostRepository;
-
+import com.careerdevs.gorestfinal3.repos.UserRepository;
 
 
 import java.util.Optional;
@@ -10,40 +11,48 @@ import java.util.Optional;
 public class PostValidation {
 
 
-    public static ValidationError validateNewUser(Post post, PostRepository postRepo, boolean isUpdate) {
+    public static ValidationError validatePost(Post post, PostRepository postRepo, UserRepository userRepo,
+                                               boolean isUpdate) {
+
         ValidationError errors = new ValidationError();
 
         if (isUpdate) {
-            if (post.getId() == null) {
-                errors.addError("id", "id can't be left blank");
+            if (post.getId() == 0) {
+                errors.addError("id", "ID can not be left blank");
             } else {
                 Optional<Post> foundUser = postRepo.findById(post.getId());
                 if (foundUser.isEmpty()) {
                     errors.addError("id", "No user found with the ID: " + post.getId());
-                } else {
-                    System.out.println(foundUser.get());
                 }
             }
         }
 
-        int postId = post.getUser_id();
         String postTitle = post.getTitle();
         String postBody = post.getBody();
+        long postUserId = post.getUser_id();
 
-
-        if (post.getId() == null || post.getId().equals("")) {
-            errors.addError("User Id" , "User ID can't be left blank.");
+        if (postTitle == null || postTitle.trim().equals("")) {
+            errors.addError("title", "Title can not be left blank");
         }
 
-        if (post.getTitle() == null || post.getTitle().trim().equals("")) {
-            errors.addError("TITLE", "Title can't be left blank");
+        if (postBody == null || postBody.trim().equals("")) {
+            errors.addError("body", "Body can not be left blank");
         }
 
-        if (post.getBody() == null || post.getBody().trim().equals("")) {
-            errors.addError("Body", "Body can't be left blank");
-        }
+        if (postUserId == 0) {
+            errors.addError("user_id", "User_ID can not be left blank");
+        } else {
+            // is the postUserId connected to an existing user.
+            Optional<User> foundUser = userRepo.findById(postUserId);
 
+            if (foundUser.isEmpty()) {
+                errors.addError("user_id", "User_ID is invalid because there is no user found with the id: " + postUserId);
+            }
+
+
+        }
 
         return errors;
+
     }
 }
