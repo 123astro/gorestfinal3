@@ -206,13 +206,13 @@ public class ToDoController {
 
             for (int i = 2; i <= totalPgNum; i++) {
                 String pageUrl = url + "?page=" + i;
-                ToDo[] pageUsers = restTemplate.getForObject(pageUrl, ToDo[].class);
+                ToDo[] pageTodos = restTemplate.getForObject(pageUrl, ToDo[].class);
 
-                if (pageUsers == null) {
+                if (pageTodos == null) {
                     throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                             "Failed to GET first page " + i + " of TodoS from GoRest ");
                 }
-                allTodo.addAll(Arrays.asList(pageUsers));
+                allTodo.addAll(Arrays.asList(pageTodos));
             }
 
             toDoRepository.saveAll(allTodo);

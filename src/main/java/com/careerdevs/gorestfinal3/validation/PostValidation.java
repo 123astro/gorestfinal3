@@ -48,11 +48,7 @@ public class PostValidation {
             if (foundUser.isEmpty()) {
                 errors.addError("user_id", "User_ID is invalid because there is no user found with the id: " + postUserId);
             }
-
-
         }
-
         return errors;
-
     }
 }
