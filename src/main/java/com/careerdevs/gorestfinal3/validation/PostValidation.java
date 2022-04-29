@@ -11,7 +11,7 @@ import java.util.Optional;
 public class PostValidation {
 
 
-    public static ValidationError validatePost(Post post, PostRepository postRepo, UserRepository userRepo,
+    public static ValidationError validateNewPost(Post post, PostRepository postRepo, UserRepository userRepo,
                                                boolean isUpdate) {
 
         ValidationError errors = new ValidationError();

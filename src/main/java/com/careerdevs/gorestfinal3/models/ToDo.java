@@ -9,6 +9,7 @@ import java.util.Date;
 @Entity
 public class ToDo {
 
+    //https://gorest.co.in/public/v2/todos
 //        id: 1431,
 //        user_id: 2835,
 //        title: "Agnosco doloribus deludo aufero quod sed cresco accusamus aut acidus torrens.",
@@ -16,13 +17,17 @@ public class ToDo {
 //         status: "pending"
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
-    private int user_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long user_id;
     private String title;
     private Date due_on;
     private String status;
 
+    public long getId() {
+        return id;
+    }
     public long getUser_id() {
         return user_id;
     }

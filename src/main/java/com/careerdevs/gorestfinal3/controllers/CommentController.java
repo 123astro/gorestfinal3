@@ -3,6 +3,7 @@ package com.careerdevs.gorestfinal3.controllers;
 
 import com.careerdevs.gorestfinal3.models.Comment;
 
+import com.careerdevs.gorestfinal3.models.Post;
 import com.careerdevs.gorestfinal3.repos.CommentRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
@@ -33,9 +34,9 @@ public class CommentController {
            * DELETE route that deletes all [resource]s from SQL database (returns how many [resource]s were deleted)
             DONE
            * POST route that queries one [resource] by ID from GoREST and saves their data to your local database (returns
-                                                                                                                           the SQL [resource] data)
+            the SQL [resource] data)
            *POST route that uploads all [resource]s from the GoREST API into the SQL database (returns how many
-            [resource]s were uploaded)
+            [resource]s were uploaded) Done
            *POST route that create a [resource] on JUST the SQL database (returns the newly created SQL [resource] data)
            *PUT route that updates a [resource] on JUST the SQL database (returns the updated SQL [resource] data)
     * */
@@ -53,7 +54,7 @@ public class CommentController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            int uID = Integer.parseInt(id);
+            long uID = Integer.parseInt(id);
 
             Optional<Comment> foundComment = commentRepository.findById(uID);
 
@@ -106,7 +107,7 @@ public class CommentController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            int uID = Integer.parseInt(id);
+            long uID = Integer.parseInt(id);
 
             //check the range => other things to do
 
@@ -154,13 +155,13 @@ public class CommentController {
 
             for (int i = 2; i <= totalPgNum; i++) {
                 String pageUrl = url + "?page=" + i;
-                Comment[] pageUsers = restTemplate.getForObject(pageUrl, Comment[].class);
+                Comment[] pageComments = restTemplate.getForObject(pageUrl, Comment[].class);
 
-                if (pageUsers == null) {
+                if (pageComments == null) {
                     throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                             "Failed to GET first page " + i + " of users from GoRest ");
                 }
-                allComments.addAll(Arrays.asList(firstPageComments));
+                allComments.addAll(Arrays.asList(pageComments));
             }
 
             commentRepository.saveAll(allComments);
@@ -173,6 +174,83 @@ public class CommentController {
             return ApiErrorHandling.genericApiError(e);
         }
     }
+
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<?> uploadCommentById (
+            @PathVariable("id") String commentId,
+            RestTemplate restTemplate // making an external api request
+    ){
+
+        try {
+
+            if (BasicUtils.isStrNaN(commentId)) {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, commentId + "is not a valid ID");
+            }
+
+            int uId = Integer.parseInt(commentId);
+
+            String url = "https://gorest.co.in/public/v2/comments/" + uId;
+
+            Comment foundComment = restTemplate.getForObject(url, Comment.class);
+            if (foundComment == null) {
+                throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "User with ID:" + uId + " not found");
+            }
+
+            Comment savedComment = commentRepository.save(foundComment);
+
+            return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
+        } catch (HttpClientErrorException e) {
+            return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
+        } catch (Exception e) {
+            return ApiErrorHandling.genericApiError(e);
+        }
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> createNewUser (@RequestBody Comment newComment){
+        try {
+
+//                ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
+//                        userRepository, true);
+//
+//                if (newPostErrors.hasError()) {
+//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
+//                } // no else block needed
+
+            Comment savedComment = commentRepository.save(newComment);
+
+            return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
+
+        } catch (HttpClientErrorException e) {
+            return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
+        } catch (Exception e) {
+            return ApiErrorHandling.genericApiError(e);
+        }
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> updatePost(@RequestBody Comment comment) {
+        try {
+
+//            ValidationError newPostErrors = PostValidation.validateNewPost(post, postRepository,
+//                    userRepository, true);
+//            //Post post, PostRepository postRepo, UserRepository userRepo,
+//
+//            if (newPostErrors.hasError()) {
+//                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
+//            } // no else block needed
+
+            Comment savedPost = commentRepository.save(comment);
+
+            return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
+
+        } catch (HttpClientErrorException e) {
+            return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
+        } catch (Exception e) {
+            return ApiErrorHandling.genericApiError(e);
+        }
+    }
+
 
 
 

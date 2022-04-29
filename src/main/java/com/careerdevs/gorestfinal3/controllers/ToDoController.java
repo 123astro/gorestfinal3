@@ -128,7 +128,7 @@ public class ToDoController {
     }
 
     @PostMapping("/upload/{id}")
-    public ResponseEntity<?> uploadUserById(
+    public ResponseEntity<?> uploadToDoById(
             @PathVariable("id") String userId,
             RestTemplate restTemplate // making an external api request
     ) {
@@ -141,7 +141,7 @@ public class ToDoController {
 
             int uId = Integer.parseInt(userId);
 
-            String url = "https://gorest.co.in/public/v2/todos" + uId;
+            String url = "https://gorest.co.in/public/v2/todos/" + uId;
 
             ToDo foundUser = restTemplate.getForObject(url, ToDo.class);
             if (foundUser == null) {

@@ -79,43 +79,6 @@ public class UserController {
         }
     }
 
-
-//    @GetMapping("/upload/{id}")
-//    public ResponseEntity<?> uploadUserById(@PathVariable("id") String userId, RestTemplate restTemplate
-//    ) {
-//        try {
-//
-//            if (ApiErrorHandling.isStrNaN(userId)) {
-//                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, userId + " is not a valid ID");
-//            }
-//
-//            int uID = Integer.parseInt(userId);
-//
-//            //check the range => other things to do
-//
-//            String url = "https://gorest.co.in/public/v2/users/" + uID;
-//            System.out.println(url);
-//
-//            User foundUser = restTemplate.getForObject(url, User.class);
-//
-//            assert foundUser != null; //0
-//            User savedUser = userRepository.save(foundUser);
-//
-//            return new ResponseEntity<>(savedUser, HttpStatus.OK);
-//
-//        } catch (HttpClientErrorException e) {
-//            return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
-//        }
-//
-////        catch (NumberFormatException e) {
-////
-////            return new ResponseEntity<>("Id must be a number", HttpStatus.NOT_FOUND);
-////        }
-//        catch (Exception e) {
-//            return ApiErrorHandling.genericApiError(e);
-//        }
-//    }
-
     @DeleteMapping("/deleteall")
     public ResponseEntity<?> deleteAllUsers() {
         try {
@@ -178,7 +141,7 @@ public class UserController {
 
             int uId = Integer.parseInt(userId);
 
-            String url = "https://gorest.co.in/public/v2/users" + uId;
+            String url = "https://gorest.co.in/public/v2/users/" + uId;
 
             User foundUser = restTemplate.getForObject(url, User.class);
             if (foundUser == null) {

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 @Entity
 
 public class Comment {
+
+    //https://gorest.co.in/public/v2/comments
 //    {
 //        id: 1398,
 //                post_id: 1383,
@@ -21,7 +23,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private int port_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long post_id;
     private String name;
     private String email;
     private String body;
@@ -30,10 +33,9 @@ public class Comment {
         return id;
     }
 
-    public int getPort_id() {
-        return port_id;
+    public long getPost_id() {
+        return post_id;
     }
-
     public String getName() {
         return name;
     }
@@ -50,7 +52,7 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "id=" + id +
-                ", port_id=" + port_id +
+                ", post_id=" + post_id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", body='" + body + '\'' +

@@ -3,8 +3,10 @@ package com.careerdevs.gorestfinal3.controllers;
 import com.careerdevs.gorestfinal3.models.Post;
 import com.careerdevs.gorestfinal3.models.User;
 import com.careerdevs.gorestfinal3.repos.PostRepository;
+import com.careerdevs.gorestfinal3.repos.UserRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
+import com.careerdevs.gorestfinal3.validation.PostValidation;
 import com.careerdevs.gorestfinal3.validation.UserValidation;
 import com.careerdevs.gorestfinal3.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,7 @@ public class PostController {
 
     @Autowired
     private PostRepository postRepository;
+    private UserRepository userRepository;
 
     //http://localhost:8080/user/all
     @GetMapping("/all")
@@ -142,7 +145,7 @@ public class PostController {
 
                 int uId = Integer.parseInt(postId);
 
-                String url = "https://gorest.co.in/public/v2/posts" + uId;
+                String url = "https://gorest.co.in/public/v2/posts/" + uId;
 
                 Post foundPost = restTemplate.getForObject(url, Post.class);
                 if (foundPost == null) {
@@ -163,10 +166,11 @@ public class PostController {
         public ResponseEntity<?> createNewUser (@RequestBody Post newPost){
             try {
 
-           //     ValidationError newUserErrors = UserValidation.validateNewUser(newPost, postRepository, false);
-
-//                if (newUserErrors.hasError()) {
-//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
+//                ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
+//                        userRepository, true);
+//
+//                if (newPostErrors.hasError()) {
+//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
 //                } // no else block needed
 
                 Post savedPost = postRepository.save(newPost);
@@ -228,25 +232,27 @@ public class PostController {
         }
 
 
-        @PutMapping("/")
-        public ResponseEntity<?> updateUser (@RequestBody Post post){
-            try {
+    @PutMapping("/")
+    public ResponseEntity<?> updatePost(@RequestBody Post post) {
+        try {
 
-//                ValidationError newUserErrors = UserValidation.validateNewUser(post, postRepository, true);
-//
-//                if (newUserErrors.hasError()) {
-//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
-//                } // no else block needed
+            ValidationError newPostErrors = PostValidation.validateNewPost(post, postRepository,
+                    userRepository, false);
+            //Post post, PostRepository postRepo, UserRepository userRepo,
 
-                Post savedPost = postRepository.save(post);
+            if (newPostErrors.hasError()) {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
+            } // no else block needed
 
-                return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
+            Post savedPost = postRepository.save(post);
 
-            } catch (HttpClientErrorException e) {
-                return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
-            } catch (Exception e) {
-                return ApiErrorHandling.genericApiError(e);
-            }
+            return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
+
+        } catch (HttpClientErrorException e) {
+            return ApiErrorHandling.customApiError(e.getMessage(), e.getStatusCode());
+        } catch (Exception e) {
+            return ApiErrorHandling.genericApiError(e);
         }
+    }
 
 }

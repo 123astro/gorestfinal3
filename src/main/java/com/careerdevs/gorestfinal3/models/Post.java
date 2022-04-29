@@ -20,7 +20,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private int user_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long user_id;
+
     private String title;
 
     @Column(length = 512) //update the default length
@@ -31,7 +33,7 @@ public class Post {
         return id;
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 

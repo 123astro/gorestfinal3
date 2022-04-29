@@ -7,6 +7,8 @@ import javax.persistence.Id;
 @Entity
 public class User {
 
+    //https://gorest.co.in/public/v2/users
+
     @Id //increments each time
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
