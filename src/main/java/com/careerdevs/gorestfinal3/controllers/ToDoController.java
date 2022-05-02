@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("/api/todos")
 
 public class ToDoController {
 
@@ -63,7 +63,7 @@ public class ToDoController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            Integer uID = Integer.parseInt(id);
+            Long uID = Long.parseLong(id);
 
             Optional<ToDo> foundUser = toDoRepository.findById(uID);
 
@@ -106,7 +106,7 @@ public class ToDoController {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, id + " is not a valid ID");
             }
 
-            Integer uID = Integer.parseInt(id);
+            Long uID = Long.parseLong(id);
 
             //check the range => other things to do
 

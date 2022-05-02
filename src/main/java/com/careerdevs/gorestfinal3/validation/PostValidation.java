@@ -29,7 +29,7 @@ public class PostValidation {
 
         String postTitle = post.getTitle();
         String postBody = post.getBody();
-        long postUserId = post.getUser_id();
+        Long postUserId = post.getUser_id();
 
         if (postTitle == null || postTitle.trim().equals("")) {
             errors.addError("title", "Title can not be left blank");

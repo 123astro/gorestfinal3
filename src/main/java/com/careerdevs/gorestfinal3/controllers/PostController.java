@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api/posts")
 
 public class PostController {
 
@@ -166,12 +166,12 @@ public class PostController {
         public ResponseEntity<?> createNewUser (@RequestBody Post newPost){
             try {
 
-//                ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
-//                        userRepository, true);
-//
-//                if (newPostErrors.hasError()) {
-//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
-//                } // no else block needed
+                ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
+                        userRepository, false);
+
+                if (newPostErrors.hasError()) {
+                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
+                } // no else block needed
 
                 Post savedPost = postRepository.save(newPost);
 

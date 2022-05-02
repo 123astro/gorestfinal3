@@ -32,11 +32,11 @@ public class UserValidation {
         String userStatus = user.getStatus();
 
         if (user.getName() == null || user.getName().trim().equals("")) {
-            errors.addError("name", "name can't be left blank");
+            errors.addError("name", "Name can't be left blank");
         }
 
         if (user.getEmail() == null || user.getEmail().trim().equals("")) {
-            errors.addError("email", "email can't be left blank");
+            errors.addError("email", "Email can't be left blank");
         }
 
         if (user.getGender() == null || user.getGender().trim().equals("")) {
