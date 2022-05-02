@@ -3,6 +3,7 @@ package com.careerdevs.gorestfinal3.validation;
 import com.careerdevs.gorestfinal3.models.Comment;
 import com.careerdevs.gorestfinal3.models.Post;
 import com.careerdevs.gorestfinal3.models.User;
+import com.careerdevs.gorestfinal3.repos.CommentRepository;
 import com.careerdevs.gorestfinal3.repos.PostRepository;
 import com.careerdevs.gorestfinal3.repos.UserRepository;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class CommentValidation {
 
 
-    public static ValidationError validateComment(Comment comment, PostRepository postRepo, UserRepository userRepo,
+    public static ValidationError validateComment(Comment comment, CommentRepository postRepo, UserRepository userRepo,
                                                   boolean isUpdate) {
 
         ValidationError errors = new ValidationError();

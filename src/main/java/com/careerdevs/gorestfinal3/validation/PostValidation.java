@@ -20,8 +20,8 @@ public class PostValidation {
             if (post.getId() == 0) {
                 errors.addError("id", "ID can not be left blank");
             } else {
-                Optional<Post> foundUser = postRepo.findById(post.getId());
-                if (foundUser.isEmpty()) {
+                Optional<Post> foundPost = postRepo.findById(post.getId());
+                if (foundPost.isEmpty()) {
                     errors.addError("id", "No user found with the ID: " + post.getId());
                 }
             }

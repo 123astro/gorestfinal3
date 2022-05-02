@@ -5,8 +5,11 @@ import com.careerdevs.gorestfinal3.models.Comment;
 
 import com.careerdevs.gorestfinal3.models.Post;
 import com.careerdevs.gorestfinal3.repos.CommentRepository;
+import com.careerdevs.gorestfinal3.repos.UserRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
+import com.careerdevs.gorestfinal3.validation.CommentValidation;
+import com.careerdevs.gorestfinal3.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -44,6 +47,9 @@ public class CommentController {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @GetMapping("/{id}")
@@ -210,12 +216,12 @@ public class CommentController {
     public ResponseEntity<?> createNewUser (@RequestBody Comment newComment){
         try {
 
-//                ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
-//                        userRepository, true);
-//
-//                if (newPostErrors.hasError()) {
-//                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
-//                } // no else block needed
+                ValidationError newCommentErrors = CommentValidation.validateComment(newComment, commentRepository,
+                        userRepository, true);
+
+                if (newCommentErrors.hasError()) {
+                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newCommentErrors.toString());
+                } // no else block needed
 
             Comment savedComment = commentRepository.save(newComment);
 
@@ -232,13 +238,13 @@ public class CommentController {
     public ResponseEntity<?> updatePost(@RequestBody Comment comment) {
         try {
 
-//            ValidationError newPostErrors = PostValidation.validateNewPost(post, postRepository,
-//                    userRepository, true);
-//            //Post post, PostRepository postRepo, UserRepository userRepo,
-//
-//            if (newPostErrors.hasError()) {
-//                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
-//            } // no else block needed
+            ValidationError newPostErrors = CommentValidation.validateComment(comment, commentRepository,
+                    userRepository, false);
+            //Post post, PostRepository postRepo, UserRepository userRepo,
+
+            if (newPostErrors.hasError()) {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());
+            } // no else block needed
 
             Comment savedPost = commentRepository.save(comment);
 

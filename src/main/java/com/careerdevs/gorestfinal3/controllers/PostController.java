@@ -46,9 +46,8 @@ public class PostController {
 
 
 
-    @Autowired
-    private PostRepository postRepository;
-    private UserRepository userRepository;
+    @Autowired private PostRepository postRepository;
+    @Autowired private UserRepository userRepository;
 
     //http://localhost:8080/user/all
     @GetMapping("/all")
@@ -167,7 +166,7 @@ public class PostController {
             try {
 
                 ValidationError newPostErrors = PostValidation.validateNewPost(newPost, postRepository,
-                        userRepository, false);
+                        userRepository, true);
 
                 if (newPostErrors.hasError()) {
                     throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newPostErrors.toString());

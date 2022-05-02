@@ -39,6 +39,7 @@ public class UserController {
             [resource]s were uploaded)
            *POST route that create a [resource] on JUST the SQL database (returns the newly created SQL [resource] data)
            *PUT route that updates a [resource] on JUST the SQL database (returns the updated SQL [resource] data)
+           * Validation for each resource. Written using the same coding pattern as the the User.
     * */
 
 
