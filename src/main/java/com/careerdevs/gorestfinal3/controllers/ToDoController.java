@@ -1,7 +1,9 @@
 package com.careerdevs.gorestfinal3.controllers;
 
 import com.careerdevs.gorestfinal3.models.ToDo;
+import com.careerdevs.gorestfinal3.models.User;
 import com.careerdevs.gorestfinal3.repos.ToDoRepository;
+import com.careerdevs.gorestfinal3.repos.UserRepository;
 import com.careerdevs.gorestfinal3.utils.ApiErrorHandling;
 import com.careerdevs.gorestfinal3.utils.BasicUtils;
 import com.careerdevs.gorestfinal3.validation.ToDoValidation;
@@ -44,6 +46,9 @@ public class ToDoController {
 
     @Autowired
     private ToDoRepository toDoRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllToDo() {
@@ -162,11 +167,11 @@ public class ToDoController {
     public ResponseEntity<?> createNewUser(@RequestBody ToDo newTodo) {
         try {
 
-//            ValidationError newUserErrors = ToDoValidation.validateNewController(newTodo, toDoRepository, false);
-//
-//            if (newUserErrors.hasError()) {
-//                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
-//            } // no else block needed
+            ValidationError newToDoErrors = ToDoValidation.validateToDo(newTodo, toDoRepository, userRepository, false);
+
+            if (newToDoErrors.hasError()) {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newToDoErrors.toString());
+            } // no else block needed
 
             ToDo savedTodo = toDoRepository.save(newTodo);
 

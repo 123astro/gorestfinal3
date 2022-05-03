@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
+
 
 @Entity
 public class ToDo {
@@ -21,13 +21,15 @@ public class ToDo {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long user_id;
+
     private String title;
-    private Date due_on;
+    private String due_on;
     private String status;
 
     public long getId() {
         return id;
     }
+
     public long getUser_id() {
         return user_id;
     }
@@ -36,7 +38,7 @@ public class ToDo {
         return title;
     }
 
-    public Date getDue_on() {
+    public String getDue_on() {
         return due_on;
     }
 
