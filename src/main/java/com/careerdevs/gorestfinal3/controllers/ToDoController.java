@@ -236,8 +236,8 @@ public class ToDoController {
     public ResponseEntity<?> updateUser(@RequestBody ToDo toDo) {
         try {
 
-            //    ValidationError newUserErrors = UserValidation.validateNewUser(toDo, toDoRepository, true);
-
+//                ValidationError newUserErrors = UserValidation.validateNewUser(toDo, toDoRepository, true);
+//
 //            if (newUserErrors.hasError()) {
 //                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newUserErrors.toString());
 //            } // no else block needed
