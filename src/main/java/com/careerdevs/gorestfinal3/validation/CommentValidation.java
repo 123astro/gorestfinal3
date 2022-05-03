@@ -21,8 +21,8 @@ public class CommentValidation {
             if (comment.getId() == 0) {
                 errors.addError("id", "ID can not be left blank");
             } else {
-                Optional<Post> foundUser = postRepo.findById(comment.getId());
-                if (foundUser.isEmpty()) {
+                Optional<Comment> foundComment = postRepo.findById(comment.getId());
+                if (foundComment.isEmpty()) {
                     errors.addError("id", "No user found with the ID: " + comment.getId());
                 }
             }

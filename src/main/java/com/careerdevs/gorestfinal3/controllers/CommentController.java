@@ -217,7 +217,7 @@ public class CommentController {
         try {
 
                 ValidationError newCommentErrors = CommentValidation.validateComment(newComment, commentRepository,
-                        userRepository, true);
+                        userRepository, false);
 
                 if (newCommentErrors.hasError()) {
                     throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, newCommentErrors.toString());
