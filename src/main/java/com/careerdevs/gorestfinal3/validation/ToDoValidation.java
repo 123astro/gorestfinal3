@@ -45,11 +45,11 @@ public class ToDoValidation {
             errors.addError("date", "Date can not be left blank");
         }
 
-        if ( toDoUserId == 0) {
-            errors.addError("user_id", "ToDor_ID can not be left blank");
+        if (toDoUserId == 0) {
+            errors.addError("user_id", "User_ID can not be left blank");
         } else {
             // is the postUserId connected to an existing user.
-            Optional<User> foundUser = userRepo.findById(toDoId);
+            Optional<User> foundUser = userRepo.findById(toDoUserId);
 
             if (foundUser.isEmpty()) {
                 errors.addError("user_id",
