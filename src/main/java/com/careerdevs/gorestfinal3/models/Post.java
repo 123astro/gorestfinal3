@@ -33,6 +33,10 @@ public class Post {
         return id;
     }
 
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
     public long getUser_id() {
         return user_id;
     }

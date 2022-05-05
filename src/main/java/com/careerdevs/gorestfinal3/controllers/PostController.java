@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -208,17 +205,28 @@ public class PostController {
                 String totalPages = Objects.requireNonNull(responseHeaders.get("X-Pagination-Pages")).get(0);
                 int totalPgNum = Integer.parseInt(totalPages);
 
+
+
                 for (int i = 2; i <= totalPgNum; i++) {
                     String pageUrl = url + "?page=" + i;
-                    Post[] pagePosts = restTemplate.getForObject(pageUrl, Post[].class);
-
-                    if (pagePosts == null) {
+                    Post[] pageUsers= restTemplate.getForObject(pageUrl, Post[].class);
+                    if (pageUsers == null) {
                         throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                                 "Failed to GET first page " + i + " of post from GoRest ");
                     }
-                    allPosts.addAll(Arrays.asList(pagePosts));
+
+                    allPosts.addAll(Arrays.asList(pageUsers));
                 }
 
+                 //get all the users to pick a valid user id randomly
+                Iterable<User> allUser = userRepository.findAll();
+                List<User> result = new ArrayList<User>();
+                allUser.forEach(result:: add);
+
+                for (Post allpost : allPosts) {
+                    long randomId = result.get((int) (result.size() * Math.random())).getId();
+                    allpost.setUser_id(randomId);
+                }
                 postRepository.saveAll(allPosts);
 
                 return new ResponseEntity<>("Posts Created " + allPosts.size(), HttpStatus.OK);
